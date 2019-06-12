@@ -1,0 +1,16 @@
+{
+    "end-date": "2017-10-01",
+    "flows": [
+        "flow1",
+        "flow2",
+        "flow3",
+        "flow4",
+        "flow5"
+    ],
+    "name": "thorium-large",
+    "rainfalls": [
+        "rainfall"
+    ],
+    "split-date": "2017-01-01",
+    "start-date": "2015-06-02"
+}
