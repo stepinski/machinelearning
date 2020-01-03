@@ -1,0 +1,13 @@
+.idea
+*.iml
+datasets/
+
+__pycache__/
+*.gz
+.ipynb_checkpoints/
+logs/
+*.log
+.vscode/
+target/
+docker_build.sh
+
