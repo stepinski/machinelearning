@@ -1,4 +1,0 @@
-[debug] [spark-train-build] Classpath dependencies List()
-[debug] [spark-train-build] Dependencies from configurations List()
-[debug] Bloop wrote the configuration of project 'spark-train-build' to '/home/pioters/ws/prj/machinelearning/spark-train/project/.bloop/spark-train-build.json'
-[success] Generated .bloop/spark-train-build.json
