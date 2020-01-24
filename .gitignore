@@ -15,3 +15,26 @@ dist/
 .bloop/
 .metals/
 .vscode/
+./data/flow4.csv
+./data/rainfall1.csv
+./data/flow4_edited.csv
+./data/flow3.csv
+./data/flow2_edited.csv
+./data/flow1.csv
+./data/flow2.csv
+./data/flow5_edited.csv
+./data/flow5.csv
+./data/flow3_edited.csv
+./data/flow1_edited.csv
+./spark-train/wikipedia/target/scala-2.12/classes/wikipedia/wikipedia.dat
+./spark-train/wikipedia/target/scala-2.12/bigdata-wikipedia_2.12-0.1.0-SNAPSHOT.jar
+./spark-train/wikipedia/project/target/streams/$global/update/$global/streams/update_cache_2.12/output
+./spark-train/wikipedia/project/target/streams/$global/update/$global/streams/out
+./spark-train/wikipedia/.metals/metals.h2.db
+./spark-train/wikipedia/src/main/resources/wikipedia/wikipedia.dat
+./spark-train/lists/project/target/streams/$global/update/$global/streams/out
+./aiopenimg/.ipynb_checkpoints/Testing new approach to flow predict-checkpoint.ipynb
+./aiopenimg/Testing new approach to flow predict.ipynb
+./aiopenimg/perf-kairos.zip
+./ts-tests/submission (1).csv
+./ts-tests/submission.csv
