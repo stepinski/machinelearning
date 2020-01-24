@@ -1,0 +1,15 @@
+resources/
+.idea
+target/
+*.iml
+secret.txt
+docker_build.sh
+
+build/
+tmp/
+dist/
+
+.toDelete
+.bloop/
+.metals/
+.vscode/
