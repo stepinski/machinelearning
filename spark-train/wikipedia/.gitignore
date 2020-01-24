@@ -1,4 +1,5 @@
 resources/
+*.dat
 .idea
 target/
 *.iml
