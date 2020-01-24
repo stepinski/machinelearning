@@ -1,6 +1,7 @@
 data/
 resources/
 *.dat
+*.csv
 .idea
 target/
 *.iml
