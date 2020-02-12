@@ -31,7 +31,12 @@ while (end>0):
 
 print(ret)
 
-for n in range(2,11,2):
+print ("Hello!")
+for n in range(10,1,-2):
     print(n)
     
-print ("Goodbye!")
+ret=0
+for i in range(0,end+1):
+    ret += i
+print(ret)
+    
