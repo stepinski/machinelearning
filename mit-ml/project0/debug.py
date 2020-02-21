@@ -1,9 +1,17 @@
 def get_sum_metrics(predictions, metrics=[]):
+    def make_multiplier_of(n):
+        def multiplier(x):
+            return x + n
+        return multiplier
+    metricas=[]
+    for m in metrics:
+        metricas.append(m)
+
     for i in range(3):
-        metrics.append(lambda x: x + i)
+        metricas.append(make_multiplier_of(i))
 
     sum_metrics = 0
-    for metric in metrics:
+    for metric in metricas:
         sum_metrics += metric(predictions)
 
     return sum_metrics
