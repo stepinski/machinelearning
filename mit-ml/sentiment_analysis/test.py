@@ -155,6 +155,11 @@ def check_perceptron_single_update():
 
     log(green("PASS"), ex_name, "")
 
+def checkperx():
+    feature_matrix = np.array([[1, 2]])
+    labels = np.array([1])
+    T = 1
+    p1.perceptron(feature_matrix,labels,T)
 
 def check_perceptron():
     ex_name = "Perceptron"
@@ -438,9 +443,26 @@ def check_extract_bow_feature_vectors():
         log(red("FAIL"), ex_name, ": unexpected feature matrix")
         return
 
+def checkp2():
+    feature_matrix =np.array([[ 0.26046531,-0.36308447,-0.01205413,0.10234256,-0.15834628,-0.01892124,-0.3465143,-0.24222911,-0.35764308,-0.16018656],
+ [-0.17900963,0.01272608,-0.06946181,0.35967905,-0.25617767,0.25118557,
+  -0.01246244,-0.31880532,0.11798194,-0.27946061],
+ [-0.47883835,0.01509427,0.16158526,-0.42773632,-0.45076571,0.04753269,
+   0.10344044,-0.08028192,0.2392796,0.24580058],
+ [-0.00515502,-0.1248861,0.39724835,0.37006804,-0.20140247,-0.48839567,
+  -0.28809722,-0.05218129,-0.07295099,0.02184959],
+ [ 0.23336495,0.16734786,-0.0663445,-0.34224209,-0.31104588,0.00237723,
+   0.42431789,0.09560354,-0.19958805,0.11698492]])
+    labels= [-1,1,-1,1,-1]
+    T=5
+    p1.perceptron(feature_matrix,labels,T)
+
+
 def main():
     log(green("PASS"), "Import project1")
     try:
+        # checkp2()
+        # return()
         check_get_order()
         check_hinge_loss_single()
         check_hinge_loss_full()
