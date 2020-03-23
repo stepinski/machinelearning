@@ -457,10 +457,17 @@ def checkp2():
     T=5
     p1.perceptron(feature_matrix,labels,T)
 
+def testclass():
+    feature_matrix = np.array([[1, 1], [1, 1], [1, 1]])
+    theta = np.array([1, 1])
+    theta_0 = 0
+    p1.classify(feature_matrix,theta,theta_0)
 
 def main():
     log(green("PASS"), "Import project1")
     try:
+        # testclass()
+        # return
         # checkp2()
         # return()
         check_get_order()

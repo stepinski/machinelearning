@@ -2,6 +2,7 @@ data/
 resources/
 *.tsv
 *.dat
+*.gz
 *.csv
 .idea
 target/
