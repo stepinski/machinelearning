@@ -123,7 +123,7 @@ def principal_components(centered_data):
     return eigen_vectors
 
 
-def plot_PC(X, pcs, labels):
+def plot_PC(X, pcs, labels, feature_means):
     """
     Given the principal component vectors as the columns of matrix pcs,
     this function projects each sample in X onto the first two principal components
@@ -131,7 +131,7 @@ def plot_PC(X, pcs, labels):
     the corresponding image.
     labels = a numpy array containing the digits corresponding to each image in X.
     """
-    pc_data = project_onto_PC(X, pcs, n_components=2)
+    pc_data = project_onto_PC(X, pcs, n_components=2, feature_means=feature_means)
     text_labels = [str(z) for z in labels.tolist()]
     fig, ax = plt.subplots()
     ax.scatter(pc_data[:, 0], pc_data[:, 1], alpha=0, marker=".")
@@ -142,14 +142,12 @@ def plot_PC(X, pcs, labels):
     plt.show()
 
 
-def reconstruct_PC(x_pca, pcs, n_components, X):
+def reconstruct_PC(x_pca, pcs, n_components, X, feature_means):
     """
     Given the principal component vectors as the columns of matrix pcs,
     this function reconstructs a single image from its principal component
     representation, x_pca.
     X = the original data to which PCA was applied to get pcs.
     """
-    feature_means = X - center_data(X)
-    feature_means = feature_means[0, :]
     x_reconstructed = np.dot(x_pca, pcs[:, range(n_components)].T) + feature_means
     return x_reconstructed

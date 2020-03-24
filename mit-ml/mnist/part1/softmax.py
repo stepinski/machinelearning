@@ -40,6 +40,15 @@ def compute_probabilities(X, theta, temp_parameter):
     return norm*p1
 
 
+def chunking_dot(big_matrix, small_matrix, chunk_size=100):
+    # Make a copy if the array is not already contiguous
+    small_matrix = np.ascontiguousarray(small_matrix)
+    R = np.empty((big_matrix.shape[0], small_matrix.shape[1]))
+    for i in range(0, R.shape[0], chunk_size):
+        end = i + chunk_size
+        R[i:end] = np.dot(big_matrix[i:end], small_matrix)
+    return R
+
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
     Computes the total cost over every datapoint.
@@ -56,6 +65,7 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
+    import gc
     stheta=sparse.coo_matrix(theta)
     # YOUR CODE HERE
     ex = np.exp(np.dot(theta, X.T)/temp_parameter)
@@ -70,20 +80,25 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     tl = np.tile(np.arange(theta.shape[0]), (Y.shape[0], 1))
     ts2 = np.tile(Y, (theta.shape[0], 1))
     iseq = np.equal(ts2.T, tl)*1
+  
     # final e
     # part1 =  -1/Y.shape[0]*np.dot(iseq, log)  if log.ndim==0 else 0
-    part1 =  -1/Y.shape[0]*np.dot(iseq, res)
+    del ex,ex2,theta,tl,ts2,tmpx,X
+    gc.collect()
+    iseqs=sparse.coo_matrix(iseq)
+    ress=sparse.coo_matrix(res)
+
+    tsta=chunking_dot(res,iseq)
+    part1a = (-1/Y.shape[0])*tsta
     part2 = stheta.power(2).sum()*lambda_factor/2
-    tmp1 = part1  + part2
+    tmp1 = part1a  + part2
+
     res=tmp1.sum(1)[0]
     
     if np.isnan(res):
         res=part2
-        
-    # if(tmp1.ndim==0)
-    # res = tmp1.sum(1) if log.ndim!=0 else part2 
-    return res
 
+    return res
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
@@ -141,7 +156,7 @@ def update_y(train_y, test_y):
                     for each datapoint in the test set
     """
     # YOUR CODE HERE
-    raise NotImplementedError
+    return (train_y%3,test_y%3)
 
 
 def compute_test_error_mod3(X, Y, theta, temp_parameter):
@@ -160,7 +175,9 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
         test_error - the error rate of the classifier (scalar)
     """
     # YOUR CODE HERE
-    raise NotImplementedError
+    error_count = 0.
+    assigned_labels = get_classification(X, theta, temp_parameter)%3
+    return 1 - np.mean(assigned_labels == Y)
 
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):
@@ -192,6 +209,7 @@ def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterat
             X, Y, theta, lambda_factor, temp_parameter))
         theta = run_gradient_descent_iteration(
             X, Y, theta, alpha, lambda_factor, temp_parameter)
+        print(i)
     return theta, cost_function_progression
 
 
