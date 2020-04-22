@@ -73,10 +73,12 @@ def run_epoch(data, model, optimizer):
 
         # Get output predictions for both the upper and lower numbers
         out1, out2 = model(x)
-
+        
         # Predict and store accuracy
         predictions_first_label = torch.argmax(out1, dim=1)
         predictions_second_label = torch.argmax(out2, dim=1)
+
+        print(y[0])
         batch_accuracies_first.append(compute_accuracy(predictions_first_label, y[0]))
         batch_accuracies_second.append(compute_accuracy(predictions_second_label, y[1]))
 

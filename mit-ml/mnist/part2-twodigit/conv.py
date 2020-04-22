@@ -20,12 +20,46 @@ class CNN(nn.Module):
     def __init__(self, input_dimension):
         super(CNN, self).__init__()
         # TODO initialize model layers here
+        # For this, you need to make use of Conv2D layers and MaxPool2d layers
+        self.flatten = Flatten()
+        self.Conv2D = nn.Conv2d(1,64,(3,3))
+        self.MaxPool2d = nn.MaxPool2d((2,2))
+        self.linear = nn.Linear(13,64)
+        self.output1 = nn.Linear(64,64)      # for top digit
+        self.output2 = nn.Linear(64,64) 
+        self.model = nn.Sequential(
+              nn.Conv2d(input_dimension, 64, (3, 3)),
+              nn.MaxPool2d((2, 2))
+            )
 
     def forward(self, x):
 
         # TODO use model layers to predict the two digits
+        
+        xf = self.flatten(x)
+        conv= self.Conv2D(x)
+        maxc = self.MaxPool2d(conv)
+        # input= self.linear(maxc)
+        # xf = self.flatten(maxc)
+        # out=self.linear(xf)
+        # out1=self.output1(xf)
+        # out2=self.output2(xf)
+        conf= self.model
+        conf.add_module("linear", torch.nn.Linear(13,64))
 
-        return out_first_digit, out_second_digit
+        output1 = conf(xf)
+        output2 = conf(xf)
+        print("test")
+        tst=torch.max(output1, 1)[1]
+        tst2=torch.max(output2, 1)[1]
+        out1=tst.view(tst.numel())
+        out2=tst2.view(tst2.numel())
+        
+        # print(xl[:, 1:2])
+        # print(out1)
+        return output1,output2
+
+        # return out_first_digit, out_second_digit
 
 def main():
     X_train, y_train, X_test, y_test = U.get_data(path_to_data_dir, use_mini_dataset)

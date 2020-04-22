@@ -17,15 +17,24 @@ class MLP(nn.Module):
 
     def __init__(self, input_dimension):
         super(MLP, self).__init__()
+        print(input_dimension)
         self.flatten = Flatten()
-        # TODO initialize model layers here
+        self.linear = nn.Linear(input_dimension,64)
+        self.output1 = lambda x : nn.Linear(64,x)      # for top digit
+        self.output2 = nn.Linear(64,64) 
+        
 
     def forward(self, x):
         xf = self.flatten(x)
-
-        # TODO use model layers to predict the two digits
-
-        return out_first_digit, out_second_digit
+        # use model layers to predict the two digits
+        input= self.linear(xf)
+        out1=self.output1(input,out_features=x.shape[0])
+        out2=self.output2(input,out_features=x.shape[0])
+      
+        # print("test")
+        # print(xl[:, :1])
+        # print(xl[:, 1:2])
+        return out1,out2
 
 def main():
     X_train, y_train, X_test, y_test = U.get_data(path_to_data_dir, use_mini_dataset)
