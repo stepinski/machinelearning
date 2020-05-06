@@ -1,7 +1,11 @@
 import numpy as np
 from numpy import linalg as LA
+from scipy.stats import multivariate_normal 
+
 def normalfixedsd(x,mi,sigma):
-    return 1/(2*np.pi*sigma)**(1/2) * np.exp(-1/(2*sigma)*LA.norm(x-mi)**2)
+    d=x.shape[1]
+    return 1/((2*np.pi)**(d/2)* (sigma)**(1/2)) * np.exp(-1/(2*sigma)*LA.norm(x-mi)**2)
+
 
 # e step
 
