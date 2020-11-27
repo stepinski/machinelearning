@@ -1,0 +1,4 @@
+test=100
+print(test)
+t2=100
+print(t2)
