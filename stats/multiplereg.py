@@ -1,4 +1,13 @@
-
+import numpy as np
+import statistics as s
+from scipy.stats import pearsonr
+import seaborn as sns; sns.set_theme(color_codes=True)
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn import linear_model
+import statsmodels.api as sm
+from statsmodels.api import OLS
 
 LogPlanetMass = np.array([-0.31471074,  1.01160091,  0.58778666,  0.46373402, -0.01005034,
          0.66577598, -1.30933332, -0.37106368, -0.40047757, -0.27443685,
@@ -41,3 +50,25 @@ LogStarAge = np.array([ 1.58103844,  1.06471074,  2.39789527,  0.72754861,  0.55
          0.55961579,  1.79175947,  0.91629073,  2.17475172,  1.36097655])
 
 N = 30
+
+intercept = np.ones(30)
+# ,columns=['interc','radius','orbit','metal','mass','age']
+df = pd.DataFrame({
+"intercept":intercept,
+                    "radius": LogPlanetRadius, 
+                    "orbit" : LogPlanetOrbit, 
+                    "metal" : StarMetallicity, 
+                    "mass" : LogStarMass, 
+                    "age" : LogStarAge
+})
+y = pd.DataFrame([LogPlanetMass])
+
+regr = linear_model.LinearRegression()
+regr.fit(df, LogPlanetMass)
+
+# print('Intercept: \n', regr.intercept_)
+# print('Coefficients: \n', regr.coef_)
+
+regols = OLS(LogPlanetMass,df).fit()
+regols.summary()
+# [0.15379, 1.402, -0.140, -1.5995, -0.956, -0.4617]
