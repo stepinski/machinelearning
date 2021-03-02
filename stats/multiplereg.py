@@ -66,8 +66,8 @@ y = pd.DataFrame([LogPlanetMass])
 regr = linear_model.LinearRegression()
 regr.fit(df, LogPlanetMass)
 
-# print('Intercept: \n', regr.intercept_)
-# print('Coefficients: \n', regr.coef_)
+print('Intercept: \n', regr.intercept_)
+print('Coefficients: \n', regr.coef_)
 
 regols = OLS(LogPlanetMass,df).fit()
 regols.summary()
