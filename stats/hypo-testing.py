@@ -26,7 +26,7 @@ for rind, row in golub.iterrows():
     varm=np.var(row[NALL:NALL+NAML+1])
     meanm=np.mean(row[NALL:NALL+NAML+1])
     vardelta=vara+varm
-     ...:     #np.sqrt(vara/NALL,varm/NAML)
+   
     tW=abs(meana-meanm)/np.sqrt(vara/NALL+varm/NAML)
     v=((vara/NALL+varm/NAML)**2)/(1/(NALL-1)*(vara/NALL)**2 + 1/(NAML-1)*(varm/NAML)**2)
     p=1-stats.t.cdf(tW,df=v)
