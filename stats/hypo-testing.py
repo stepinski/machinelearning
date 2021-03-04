@@ -1,9 +1,14 @@
 import pandas as pd
 import numpy as np
+import statsmodels.stats.multitest
+
 from zipfile import ZipFile 
 with ZipFile("../data/release_statsreview_release.zip") as zip_file:
     zip_file.open('data/gamma-ray.csv')
     golub_data, gc = ( np.genfromtxt(zip_file.open('data/golub_data/{}'.format(fname)), delimiter=',', names=True, converters={0: lambda s: int(s.strip(b'"'))}) for fname in ['golub.csv', 'golub_cl.csv'] )
+
+golub=pd.read_csv("golub.csv")
+ 
 
 NALL=27
 NAML=11
