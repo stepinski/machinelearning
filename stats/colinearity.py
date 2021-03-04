@@ -33,6 +33,11 @@ print(corr)
 #pearson lib
 corr2, _ = pearsonr(Xs, Ys)
 print('Pearsons correlation: %.3f' % corr2)
+bet1=corr2*(s.stdev(Ys)/s.stdev(Xs) )
+print('beta1: %.3f' % bet1)
+
+bet0=np.mean(Ys)-bet1*np.mean(Xs)
+print('beta0: %.3f' % bet0)
 
 #testing Xt = np.arange(0, 1.1, .1)
 Xt = np.random.normal(-1, 1, 1000)
