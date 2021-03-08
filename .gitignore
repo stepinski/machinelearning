@@ -7,6 +7,10 @@ resources/
 .idea
 target/
 *.iml
+*.zip
+*.png
+test/
+train/
 secret.txt
 docker_build.sh
 
