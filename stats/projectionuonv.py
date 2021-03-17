@@ -13,3 +13,10 @@ print(pruv)
 u = np.array([-1, 0])  
 pruv = (np.dot(u, v)/v_norm**2)*v 
 print(pruv)
+
+x1= np.array([1, 2]) 
+x2 = np.array([3, 4]) 
+x3 = np.array([-1, 0])
+
+#covariance matrix def
+#1/n*np.dot(x.T,x) 
