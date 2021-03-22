@@ -25,8 +25,21 @@ max1clog=np.max(lx[:,0])
 # plt.ylabel('cumulative explained variance');
 # plt.show()
 
-pca = PCA().fit(lx)
-plt.plot(np.cumsum(pca.explained_variance_ratio_))
-plt.xlabel('number of components')
-plt.ylabel('cumulative explained variance');
+# pca = PCA().fit(lx)
+# plt.plot(np.cumsum(pca.explained_variance_ratio_))
+# plt.xlabel('number of components')
+# plt.ylabel('cumulative explained variance');
+# plt.show()
+
+ys=np.load("../data/highdim/p1/y.npy")
+
+# plt.scatter(lx[:,0], ys,c=ys)
+# plt.show()
+
+
+pca = PCA(n_components=2)
+
+x_trans = pca.fit_transform(lx)
+plt.scatter(x_trans[:,0],x_trans[:,1])
 plt.show()
+# print(abs( pca.components_ ))
