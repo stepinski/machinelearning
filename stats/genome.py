@@ -1,5 +1,7 @@
 import numpy as np
 from sklearn.decomposition import PCA
+from sklearn.manifold import MDS,TSNE
+from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
@@ -37,9 +39,16 @@ ys=np.load("../data/highdim/p1/y.npy")
 # plt.show()
 
 
-pca = PCA(n_components=2)
 
-x_trans = pca.fit_transform(lx)
-plt.scatter(x_trans[:,0],x_trans[:,1])
+model = PCA()
+# model=MDS()
+# model=TSNE()
+
+
+x_trans = model.fit_transform(lx)
+kmeans = KMeans(n_clusters=4,n_init=100)
+y=kmeans.fit_predict(x_trans)
+
+plt.scatter(x_trans[:,0],x_trans[:,1],c=y)
 plt.show()
 # print(abs( pca.components_ ))
