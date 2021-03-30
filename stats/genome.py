@@ -47,8 +47,17 @@ model = PCA()
 
 x_trans = model.fit_transform(lx)
 kmeans = KMeans(n_clusters=4,n_init=100)
-y=kmeans.fit_predict(x_trans)
+y=kmeans.fit_predict(lx)
 
-plt.scatter(x_trans[:,0],x_trans[:,1],c=y)
-plt.show()
+# plt.scatter(x_trans[:,0],x_trans[:,1],c=y)
+# plt.show()
 # print(abs( pca.components_ ))
+
+#looking for clusters with elbow method:
+# allkmeans=[KMeans(n_clusters=i+1,n_init=100) for i in range(8)]
+# for i in range(8):
+#     allkmeans[i].fit(x_trans)
+
+# inertias=[allkmeans[i].inertia_ for i in range(8)]
+# plt.plot(np.arange(1,9),inertias)
+# plt.show()
