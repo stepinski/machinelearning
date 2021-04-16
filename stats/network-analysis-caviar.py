@@ -45,3 +45,73 @@ print (time.perf_counter() - start_time, "bc seconds") #0.01101
 start_time = time.perf_counter()
 ec9=nx.eigenvector_centrality(G[9])
 print (time.perf_counter() - start_time, "bc seconds") #0.0015496869
+
+skeys=['n1','n4','n89','n83','n3','n5','n88','n85','n90','n2','n7','n54','n6','n64','n8']
+
+import numpy as np
+centralsd=[]
+centralsb=[]
+centralse=[]
+for i in range(1,12):
+  dc=nx.degree_centrality(G[i]) 
+  centralsd.append(dc)
+
+  bc=nx.betweenness_centrality(G[i], normalized = True)  
+  centralsb.append(bc)
+  
+  ec=nx.eigenvector_centrality(G[i])
+  centralse.append(ec)
+
+import pandas as pd
+ddf= pd.DataFrame(centralsd).fillna(0)
+bdf= pd.DataFrame(centralsb).fillna(0)
+edf= pd.DataFrame(centralse).fillna(0)
+
+bdf.mean(axis=0).sort_values(ascending=False).head() 
+
+edf.mean(axis=0).sort_values(ascending=False).head() 
+
+
+
+df = pd.read_csv("../data/Cooffending/Cooffending.csv")
+dfr=df.drop_duplicates(subset={'OffenderIdentifier','CrimeIdentifier'})
+
+dfr=df.drop_duplicates(subset={'OffenderIdentifier'})
+
+dfr=df.drop_duplicates(subset={'CrimeIdentifier'})
+
+
+dfr.groupby('CrimeYear').size().reset_index(name='counts').sort_values('counts')
+
+
+dfr=df.drop_duplicates(subset={'CrimeIdentifier'})
+sum_column = dfr["NumberYouthOffenders"] + dfr["NumberAdultOffenders"]
+dfr["TotalOffenders"] = sum_column
+
+dfr.groupby('CrimeIdentifier').agg({'TotalOffenders':'sum'}).sort_values('TotalOffenders')
+dfr.loc[dfr['CrimeIdentifier']==27849]['CrimeLocation']
+
+
+dfr=df.drop_duplicates(subset={'OffenderIdentifier','CrimeIdentifier'})
+dfr.groupby('OffenderIdentifier').size().reset_index(name='counts').sort_values('counts')
+
+from scipy.sparse import csr_matrix
+
+dfr=df.drop_duplicates(subset={'OffenderIdentifier','CrimeIdentifier'})
+# coofs = nx.from_pandas_adjacency(dfr)
+# adj=nx.to_numpy_array(coofs)
+
+# csmat=csr_matrix(adj)
+crimes=dfr[['OffenderIdentifier', 'CrimeIdentifier']]
+crimestmp=crimes.copy()
+rels=crimes.set_index('CrimeIdentifier').join(crimestmp.set_index('CrimeIdentifier'), on='CrimeIdentifier', how='left', lsuffix='_l', rsuffix='_r')
+
+# check if removing self loops in sparse matrix is not better
+# relsnos=rels.loc[rels['OffenderIdentifier_l']!=rels['OffenderIdentifier_r']]
+
+
+
+[print(ofl) for (ofl, ofr) in zip(df['OffenderIdentifier_l'], df['OffenderIdentifier_r'])]
+
+
+crimes=dfr[['OffenderIdentifier', 'CrimeIdentifier']].to_numpy()
