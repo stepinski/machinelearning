@@ -10,9 +10,8 @@ for i in range(1,12):
   phases[i] = pd.read_csv(file_name, index_col = ["players"])
   phases[i].columns = "n" + phases[i].columns
   phases[i].index = phases[i].columns
-  G[i] = nx.from_pandas_adjacency(phases[i])
+  G[i] = nx.from_pandas_adjacency(phases[i]) nx.DiGraph()
   G[i].name = var_name
-
 
 
 dc9=nx.degree_centrality(G[9]) 
@@ -111,7 +110,7 @@ rels=crimes.set_index('CrimeIdentifier').join(crimestmp.set_index('CrimeIdentifi
 
 
 
-[print(ofl) for (ofl, ofr) in zip(df['OffenderIdentifier_l'], df['OffenderIdentifier_r'])]
+# [print(ofl) for (ofl, ofr) in zip(df['OffenderIdentifier_l'], df['OffenderIdentifier_r'])]
 row = rels['OffenderIdentifier_l'].to_numpy()
 col = rels['OffenderIdentifier_r'].to_numpy()
   
@@ -218,3 +217,14 @@ nx.density(max(S2,key=lambda item:len(item[0]))[1])
 S3 = [(c,coofs3.subgraph(c).copy())for c in nx.connected_components(coofs3)]
 nx.density(max(S3,key=lambda item:len(item[0]))[1])  
 
+import seaborn as sns
+
+S = [(c,coofs.subgraph(c).copy())for c in nx.connected_components(coofs2)] 
+b=nx.betweenness_centrality(max(S,key=lambda item:len(item[0]))[1])
+sns.displot(b)  
+plt.show()
+
+S = [(c,coofs.subgraph(c).copy())for c in nx.connected_components(coofs3)] 
+b2=nx.betweenness_centrality(max(S,key=lambda item:len(item[0]))[1])
+sns.displot(b2)  
+plt.show()

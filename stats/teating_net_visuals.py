@@ -19,10 +19,23 @@ for i in range(1,12):
   phases[i] = pd.read_csv(file_name, index_col = ["players"])
   phases[i].columns = "n" + phases[i].columns
   phases[i].index = phases[i].columns
-  G[i] = nx.from_pandas_adjacency(phases[i])
+  G[i] = nx.from_pandas_adjacency(phases[i],create_using=nx.DiGraph())
   G[i].name = var_name
+
+for i in range(1,12): 
+  h,a=nx.algorithms.link_analysis.hits(G[i],max_iter=1000000)
+  print("phase {0} n1 hubs {1} auth {2}.".format(i,h['n1'],a['n1']))
+  print("n3 hubs {1} auth {2}.".format(i,h['n3'],a['n3']))
 
 !apt-get install graphviz graphviz-dev
 !pip install pygraphviz
 
-nx.draw(G[3], pos=nx.drawing.nx_agraph.graphviz_layout(G[3]), with_labels=True)
+import matplotlib.pyplot as plt
+for i in range(1,12):
+  fig=plt.figure(i)
+  fig.suptitle(i)
+  nx.draw(G[i], pos=nx.drawing.nx_agraph.graphviz_layout(G[i]), with_labels=True) 
+plt.show()
+
+create_using = nx.DiGraph().)
+With networkx you can use the nx.algorithms.link_analysis.hits function, set max_iter=1000000 for best results.
