@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.linear_model import LinearRegression
 
 co2 = pd.read_csv("../data/linear/CO2.csv", header=[0, 1, 2], comment='"')
@@ -54,7 +55,15 @@ co2fn = co4f.rename(columns = {'ind': 'x', 'CO2  [ppm]': 'y'}, inplace = False)
 
 train=co2fn[:587]
 test = co2fn[588:]
-X = sm.add_constant(train['x'])
+train['x2']=train['x']**2
+test['x2'] = test['x']**2
+train['x3']=train['x']**3
+test['x3'] = test['x']**3
+
+# X = sm.add_constant(train[['x','x2','x3']])
+X = sm.add_constant(train[['x','x2']])
+# X = sm.add_constant(train[['x']])
+
 model = sm.OLS(train['y'],X) 
 # model = ols('y ~ x', data=co2fn[:587]).fit()
 res=model.fit()
@@ -64,7 +73,8 @@ print(res.summary())
 fig = plt.figure(figsize=(12,8))
 
 #produce regression plots
-fig = sm.graphics.plot_regress_exog(model, 'x', fig=fig)
+fig = sm.graphics.plot_regress_exog(res, 'x', fig=fig)
+plt.show()
 
 from statsmodels.tools.eval_measures import rmse
 
@@ -72,14 +82,23 @@ from statsmodels.tools.eval_measures import rmse
 # fit your model which you have already done
 
 # now generate predictions
-Xt = sm.add_constant(test['x'])
+# Xt = sm.add_constant(test[['x']])
+#Xt = sm.add_constant(test[['x','x2']])
+Xt=sm.add_constant(test[['x','x2','x3']])
 ypred = res.predict(Xt)
 
 # calc rmse
-rmse = rmse(y, ypred)
+rmse = rmse(test['y'], ypred)
 
 
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.metrics import mean_squared_error
 mean_absolute_percentage_error(test['y'], ypred)
 mean_squared_error(test['y'], ypred)
+
+
+X = sm.add_constant(train[['x','x2']])
+model = sm.OLS(train['y'],X)
+res=model.fit()
+ypred = res.predict(X)
+diffs=co2fn['y']-ypred
