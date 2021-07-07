@@ -7,7 +7,7 @@ import time
 import ruptures as rpt
 from datetime import datetime
 
-data = pd.read_csv("velocity.csv")
+data = pd.read_csv("test_anom2.csv")
 print(data.head())
 data.set_index(np.arange(len(data.index)), inplace=True)
 
@@ -233,8 +233,8 @@ data = dp_outlier_detection_v1(data, channel_to_fix, anomaly_column_name)
 model = WindowModelV2(data, "velocity", anomaly_column_name, 0.1, 20, 7, 8, "l2")
 data = model.predict_changepoints()
 
-data = data[['time', anomaly_column_name]]
-data.columns = ['time', 'value']
+data = data[['time', 'velocity',anomaly_column_name]]
+data.columns = ['time', 'value','flag']
 
 data.set_index("time", inplace=True)
 
