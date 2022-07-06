@@ -1,13 +1,15 @@
 import warnings
+
 warnings.filterwarnings("ignore")
-import pandas as pd
 import numpy as np
-import math
+import pandas as pd
 import time
+import math
 import ruptures as rpt
 from datetime import datetime
 
-data = pd.read_csv("004cal_17.csv")
+
+data = pd.read_csv("004cal17_level.csv")
 print(data.head())
 data.set_index(np.arange(len(data.index)), inplace=True)
 
@@ -16,17 +18,17 @@ def check_if_shift_v0(data, column_name, start_index, end_index, check_period):
     """ using median to see if it changes significantly in shift """
     period_before = data[column_name][start_index - check_period: start_index]
     period_in_the_middle = data[column_name][start_index:end_index]
-    period_after = data[column_name][end_index: end_index + check_period]
+    period_after = data[column_name][end_index: end_index + 288]
 
-    period_before_median = abs(np.nanmedian(period_before))
-    period_in_the_middle_median = abs(np.nanmedian(period_in_the_middle))
-    period_after_median = abs(np.nanmedian(period_after))
+    period_before_median = np.nanmedian(period_before)
+    period_in_the_middle_median = np.nanmedian(period_in_the_middle)
+    period_after_median = np.nanmedian(period_after)
 
     upper_threshold = period_in_the_middle_median * 2
     down_threshold = period_in_the_middle_median / 2
 
-    if (upper_threshold < period_before_median and upper_threshold < period_after_median) or\
-            (down_threshold > period_before_median and down_threshold > period_after_median):
+    if (upper_threshold < period_before_median and upper_threshold < period_after_median) \
+            or (down_threshold > period_before_median and down_threshold > period_after_median):
         return True
     else:
         return False
@@ -74,30 +76,13 @@ class DpMissingValuesV0:
         self.fit_period = fit_data
 
     @staticmethod
-    def prepare_data_dp(data, column_to_fix):
-        data['time'] = pd.to_datetime(data['time'])
-        data['hour'] = pd.to_datetime(data.time, unit='m').dt.strftime('%H:%M')
-        daily_pattern = data[column_to_fix].groupby(by=[data.time.map(lambda x: (x.hour, x.minute))]).mean()
-        daily_pattern = daily_pattern.reset_index()
-        daily_pattern['hour'] = pd.date_range('00:00:00', periods=len(daily_pattern), freq='5min')
-        daily_pattern['hour'] = pd.to_datetime(daily_pattern.hour, unit='m').dt.strftime('%H:%M')
-        daily_pattern = daily_pattern[['hour', column_to_fix]]
-        data['dp'] = data['hour']
-        mapping = dict(daily_pattern[['hour', column_to_fix]].values)
-        final_ = dict(data[['dp', column_to_fix]].values)
-        z = {**final_, **mapping}
-        data.index = np.arange(len(data))
-        data['daily_pattern_flow'] = data['dp'].map(z)
-        return data
-
-    @staticmethod
     def fill_missing_values(data, column_to_fix):
         data = data.copy()
         data['hour'] = pd.to_datetime(data.time, unit='m').dt.strftime('%H:%M')
         data['time'] = pd.to_datetime(data['time'])
 
         data_for_dp_fit = data[:10000]
-        dp = DpMissingValuesV0.prepare_data_dp(data_for_dp_fit, column_to_fix)
+        dp = prepare_data_dp(data_for_dp_fit, column_to_fix)
         i = 0
         displacement = 10000
         fit_time = 0
@@ -119,7 +104,7 @@ class DpMissingValuesV0:
             else:
                 if fit_time > 10000:
                     data_for_dp_fit = data.loc[(current_index - displacement + 1):current_index]
-                    dp = DpMissingValuesV0.prepare_data_dp(data_for_dp_fit, column_to_fix)
+                    dp = prepare_data_dp(data_for_dp_fit, column_to_fix)
                     fit_time = 0
                 i += 1
         return data[column_to_fix]
@@ -212,7 +197,7 @@ class WindowModelV2:
 
             else:
                 self.data[self.flag_name][start_index: start_index+1] = 1
-                self.data[self.flag_name][end_index: end_index+1] = 1
+                self.data[self.flag_name][end_index:end_index+1] = 1
             start += 2
             end += 2
         now = datetime.now()
@@ -220,9 +205,9 @@ class WindowModelV2:
         return self.data
 
 
-channel_to_fix = "velocity"
+channel_to_fix = "level"
 anomaly_column_name = "anomalies"
-output_file_name = "QAQCvelocity"
+output_file_name = "QAQClevel"
 
 """ prepare data """
 data = prepare_data_to_test(data, channel_to_fix)
@@ -230,10 +215,10 @@ data = prepare_data_to_test(data, channel_to_fix)
 data = dp_outlier_detection_v1(data, channel_to_fix, anomaly_column_name)
 
 """ fit and predict data """
-model = WindowModelV2(data, "velocity", anomaly_column_name, 0.1, 20, 7, 8, "l2")
+model = WindowModelV2(data, "level", anomaly_column_name, 200, 20, 7, 8, "l2")
 data = model.predict_changepoints()
 
-data = data[['time', 'velocity',anomaly_column_name]]
+data = data[['time','level', anomaly_column_name]]
 data.columns = ['time', 'value','flag']
 
 data.set_index("time", inplace=True)
