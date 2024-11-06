@@ -1,0 +1,49 @@
+Coding Challenges
+Data Structures and Algorithms
+Arrays and Strings:
+
+x www.hackerrank.com/challenges/ctci-array-left-rotation/problem
+www.hackerrank.com/challenges/crush/problem
+www.hackerrank.com/challenges/sherlock-and-array/problem
+www.hackerrank.com/challenges/ctci-making-anagrams/problem
+Hash Maps and Dictionaries:
+
+www.hackerrank.com/challenges/two-strings/problem
+www.hackerrank.com/challenges/count-triplets-1/problem
+www.hackerrank.com/challenges/ctci-ransom-note/problem
+Sorting and Searching:
+
+www.hackerrank.com/challenges/ctci-bubble-sort/problem
+www.hackerrank.com/challenges/ctci-comparator-sorting/problem
+www.hackerrank.com/challenges/ctci-ice-cream-parlor/problem
+Dynamic Programming:
+
+www.hackerrank.com/challenges/max-array-sum/problem
+www.hackerrank.com/challenges/coin-change/problem
+www.hackerrank.com/challenges/dynamic-programming-classics-the-longest-common-subsequence/problem
+Recursion and Backtracking:
+
+www.hackerrank.com/challenges/recursive-digit-sum/problem
+www.hackerrank.com/challenges/crossword-puzzle/problem
+www.hackerrank.com/challenges/password-cracker/problem
+Graph Theory:
+
+www.hackerrank.com/challenges/ctci-bfs-shortest-reach/problem
+www.hackerrank.com/challenges/connected-cell-in-a-grid/problem
+www.hackerrank.com/challenges/torque-and-development/problem
+Machine Learning and Data Science Concepts
+Data Preprocessing and Feature Engineering:
+
+www.hackerrank.com/domains/tutorials/10-days-of-statistics
+SQL for Data Extraction:
+
+www.hackerrank.com/challenges/weather-observation-station-20/problem
+www.hackerrank.com/challenges/the-company/problem
+www.hackerrank.com/domains/sql/advanced-select
+Probability and Statistics:
+
+www.hackerrank.com/domains/tutorials/10-days-of-statistics
+Python Machine Learning Challenges:
+
+www.hackerrank.com/challenges/predicting-house-prices/problem
+www.hackerrank.com/challenges/stockprediction/problem
