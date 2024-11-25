@@ -1,0 +1,14 @@
+
+def whatFlavors(cost, money):
+    # Write your code here
+      # Dictionary to map costs to their indices
+    cmap = {}
+    
+    for i, c in enumerate(cost):
+        complement = money - c
+        if complement in cmap:
+            # If the complement exists, print the indices (1-based)
+            print(f"{cmap[complement] + 1} {i + 1}")
+            return
+        # Store the current cost and its index in the map
+        cmap[c] = i
