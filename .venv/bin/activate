@@ -68,3 +68,4 @@ fi
 # Call hash to forget past commands. Without forgetting
 # past commands the $PATH changes we made may not be respected
 hash -r 2> /dev/null
+export LD_LIBRARY_PATH=/nix/store/gpj6b081yr1p53mhc07w8gjxvq4bx9mz-conda-shell-usr-target/lib64:$LD_LIBRARY_PATH
